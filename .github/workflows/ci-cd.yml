@@ -56,20 +56,14 @@ jobs:
           if-no-files-found: ignore
 
   security:
-    name: 3. Security Scan
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Scan repository with Trivy
-        uses: aquasecurity/trivy-action@0.36.0
-        with:
-          scan-type: fs
-          scan-ref: .
-          scanners: vuln,misconfig,secret
-          severity: HIGH,CRITICAL
-          ignore-unfixed: true
-          exit-code: '1'
+   name: Run Trivy vulnerability scanner
+   uses: aquasecurity/trivy-action@v0.36.0
+   with:
+    scan-type: 'fs'
+    scan-ref: '.'
+    severity: 'HIGH,CRITICAL'
+    format: 'table'
+    exit-code: '1'
 
   build:
     name: 4. Build
